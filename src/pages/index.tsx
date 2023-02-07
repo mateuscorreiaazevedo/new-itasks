@@ -1,13 +1,12 @@
 import { GetServerSideProps } from 'next'
 import { getServerSession } from 'next-auth'
-import { signOut } from 'next-auth/react'
 import React from 'react'
 import { authOptions } from './api/auth/[...nextauth]'
 
 type Props = {
   user: {
-    name?: string | null,
-    email?: string | null,
+    name?: string | null
+    email?: string | null
     image?: string | null
   }
 }
@@ -15,7 +14,7 @@ type Props = {
 export default function Home ({ user }: Props) {
   return (
     <>
-      <h1 onClick={() => signOut()}>Hello {user.name}</h1>
+      <h1>Hello {user.name}</h1>
     </>
   )
 }

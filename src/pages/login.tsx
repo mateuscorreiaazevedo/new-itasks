@@ -15,7 +15,7 @@ export default function Login () {
   const { handleTheme, isLight } = useTheme()
 
   return (
-    <div className="w-80 h-fit rounded-xl shadow-md bg-orange-200 dark:bg-zinc-800">
+    <div className="lg:w-80 w-full lg:h-fit h-screen lg:rounded-xl flex flex-col items-center justify-center gap-4 shadow-md bg-orange-200 dark:bg-zinc-800">
       <div className="flex items-center justify-center">
         <h1 className="text-4xl font-semibold my-4">Bem-vindo!</h1>
       </div>
