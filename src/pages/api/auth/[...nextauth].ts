@@ -1,27 +1,25 @@
+import { prisma } from '@/modules/core'
+import { PrismaAdapter } from '@next-auth/prisma-adapter'
 import nextAuth, { NextAuthOptions } from 'next-auth'
-// import Credentials from 'next-auth/providers/credentials'
+import Github from 'next-auth/providers/github'
 
 export const authOptions: NextAuthOptions = {
   providers: [
-    // Credentials({
-    //   name: 'credentials',
-    //   credentials: {},
-    //   authorize: async (credentials) => {
-    //     try {
-    //     } catch (error) {
-    //       throw new Error((error as any).message)
-    //     }
-    //   }
-    // }),
+    Github({
+      clientId: process.env.GITHUB_ID!,
+      clientSecret: process.env.GITHUB_SECRET!
+    })
   ],
+  adapter: PrismaAdapter(prisma!),
   secret: process.env.NEXTAUTH_SECRET,
   session: {
     strategy: 'jwt'
   },
-  // pages: {
-  // signIn: '/login'
-  // error: '/login'
-  // }
+  pages: {
+    signIn: '/login',
+    error: '/login',
+    signOut: '/login'
+  }
 
 }
 
