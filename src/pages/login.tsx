@@ -1,22 +1,49 @@
+import { authOptions } from './api/auth/[...nextauth]'
+import { ButtonUi } from '@/components/ui'
 import { GetServerSideProps } from 'next'
 import { getServerSession } from 'next-auth'
 import { signIn } from 'next-auth/react'
+import { useTheme } from '@/modules/core'
 import React from 'react'
-import { authOptions } from './api/auth/[...nextauth]'
+
+import { FcGoogle } from 'react-icons/fc'
+import { BsMoon, BsSun } from 'react-icons/bs'
+import { FaDiscord, FaGithub } from 'react-icons/fa'
+import Link from 'next/link'
 
 export default function Login () {
+  const { handleTheme, isLight } = useTheme()
+
   return (
-    <div className='w-80 h-fit rounded-xl shadow-md bg-orange-200'>
-      <div className='flex items-center justify-center'>
+    <div className="w-80 h-fit rounded-xl shadow-md bg-orange-200 dark:bg-zinc-800">
+      <div className="flex items-center justify-center">
         <h1 className="text-4xl font-semibold my-4">Bem-vindo!</h1>
       </div>
-      <div className='flex flex-col justify-center items-center my-2'>
-        <button
-          onClick={() => signIn('github')}
-        >
-          Entrar com Github
-        </button>
+      <div className="flex flex-col justify-center items-center my-2 gap-2">
+        <ButtonUi onClick={() => signIn('github')}>
+          <FaGithub className="text-3xl" /> Entrar com Github
+        </ButtonUi>
+        <ButtonUi onClick={() => signIn('google')}>
+          <FcGoogle className="text-3xl" /> Entrar com Google
+        </ButtonUi>
+        <ButtonUi onClick={() => signIn('discord')}>
+          <FaDiscord className="text-3xl fill-violet-800 dark:fill-violet-500" />
+          Entrar com Discord
+        </ButtonUi>
       </div>
+      <div className='my-4 flex items-center justify-center'>
+        <ButtonUi onClick={handleTheme}>
+          {isLight ? <BsSun/> : <BsMoon />} Alterar tema
+        </ButtonUi>
+      </div>
+      <footer className='flex text-lg flex-col items-center justify-center mb-5'>
+        <h3>
+          iTasks &copy; 2023
+        </h3>
+        <p>
+          Powered by <Link className='font-semibold hover:tracking-wider transition-all' href='https://mateusdev.com.br' target='_blank'>Mateus Azevedo</Link>
+        </p>
+      </footer>
     </div>
   )
 }

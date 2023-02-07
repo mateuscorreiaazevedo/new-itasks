@@ -4,10 +4,18 @@ import { signOut } from 'next-auth/react'
 import React from 'react'
 import { authOptions } from './api/auth/[...nextauth]'
 
-export default function Home () {
+type Props = {
+  user: {
+    name?: string | null,
+    email?: string | null,
+    image?: string | null
+  }
+}
+
+export default function Home ({ user }: Props) {
   return (
     <>
-      <h1 onClick={() => signOut()}>Hello World</h1>
+      <h1 onClick={() => signOut()}>Hello {user.name}</h1>
     </>
   )
 }
@@ -26,7 +34,7 @@ export const getServerSideProps: GetServerSideProps = async ctx => {
 
   return {
     props: {
-      session
+      user: session.user
     }
   }
 }

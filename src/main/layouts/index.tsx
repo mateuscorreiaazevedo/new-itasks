@@ -16,7 +16,7 @@ export const Layout = ({ children }: ChildrenProps) => {
         <Head>
           <title>Login | iTasks</title>
         </Head>
-        <main className="w-full h-screen bg-orange-50 dark:bg-zinc-900 flex items-center justify-center">
+        <main className="w-full h-screen flex items-center justify-center">
           {children}
         </main>
       </>
