@@ -1,4 +1,4 @@
-import { Header } from '@/components'
+import { Footer, Header } from '@/components'
 import Head from 'next/head'
 import { useRouter } from 'next/router'
 import React from 'react'
@@ -31,7 +31,7 @@ export const Layout = ({ children }: ChildrenProps) => {
       </Head>
       <Header />
       <main className="container mx-auto">{children}</main>
-      <footer>footer</footer>
+      <Footer />
     </>
   )
 }

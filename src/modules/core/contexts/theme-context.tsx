@@ -1,4 +1,4 @@
-import { useLocalStorage } from '..'
+import { useCookies } from '..'
 import React from 'react'
 import { Layout } from '@/main/layouts'
 
@@ -15,7 +15,7 @@ type ProviderProps = {
 }
 
 export const ThemeProvider = ({ children }: ProviderProps) => {
-  const [theme, setTheme] = useLocalStorage<string>('theme-climapp', 'light')
+  const [theme, setTheme] = useCookies<string>('theme-itasks', 'light')
   const [isLight, setIsLight] = React.useState(true)
 
   const handleTheme = () => {
