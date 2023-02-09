@@ -1,7 +1,11 @@
-import { GetServerSideProps } from 'next'
-import { getServerSession } from 'next-auth'
-import React from 'react'
+import { prisma, useNotification } from '@/modules/core'
 import { authOptions } from './api/auth/[...nextauth]'
+import { NewTask, taskService } from '@/modules/tasks'
+import { FaInfoCircle } from 'react-icons/fa'
+import { getServerSession } from 'next-auth'
+import { GetServerSideProps } from 'next'
+import { Task } from '@prisma/client'
+import React from 'react'
 
 type Props = {
   user: {
@@ -9,18 +13,53 @@ type Props = {
     email?: string | null
     image?: string | null
   }
+  data: Task[] | undefined
 }
 
-export default function Home ({ user }: Props) {
+export default function Home ({ data }: Props) {
+  const [tasks, setTasks] = React.useState(data)
+  const { setNotification } = useNotification()
+
+  const refreshTasks = async () => {
+    try {
+      const response = await taskService.getAll()
+      setTasks(response?.data)
+    } catch (error) {
+      setNotification((error as any).message)
+    }
+  }
+
   return (
-    <>
-      <h1>Hello {user.name}</h1>
-    </>
+    <div>
+      <NewTask refreshTasks={refreshTasks} />
+      {tasks?.length
+        ? tasks?.map(task => (
+        <div key={task.id}>
+          {task.title}
+        </div>
+        ))
+        : (
+        <div
+          className='w-full h-20 bg-blue-400 flex gap-4 items-center justify-center md:text-4xl sm:text-2xl text-xl sm:rounded-xl shadow-md text-white'
+        >
+          <FaInfoCircle />
+          <h2 className='font-semibold'>
+            Nenhuma tarefa encontrada
+          </h2>
+        </div>
+          )}
+
+    </div>
   )
 }
 
 export const getServerSideProps: GetServerSideProps = async ctx => {
   const session = await getServerSession(ctx.req, ctx.res, authOptions)
+  const data = await prisma?.task.findMany({
+    where: {
+      user: { email: session?.user?.email as string }
+    }
+  })
 
   if (!session) {
     return {
@@ -33,7 +72,8 @@ export const getServerSideProps: GetServerSideProps = async ctx => {
 
   return {
     props: {
-      user: session.user
+      user: session.user,
+      data
     }
   }
 }
