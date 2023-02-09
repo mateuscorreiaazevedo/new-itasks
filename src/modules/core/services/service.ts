@@ -1,11 +1,11 @@
-import axios, {AxiosInstance, AxiosResponse } from 'axios'
+import axios, { AxiosInstance, AxiosResponse } from 'axios'
 
 type HttpRequest = {
   url: string
   body?: any
   headers?: any
   params?: any
-  method?: 'get'|'post'|'put'|'delete'
+  method?: 'get' | 'post' | 'put' | 'delete'
 }
 
 type HttpResponse<T> = {
@@ -13,18 +13,19 @@ type HttpResponse<T> = {
   body?: T
 }
 
+const BASE_URL = process.env.NEXT_PUBLIC_API_URL!
 
-export class Service {
+class Service {
   private api: AxiosInstance
 
-  constructor (private readonly baseURL: string = '') {
+  constructor (private readonly baseURL: string = BASE_URL) {
     this.api = axios.create({
       baseURL
     })
   }
 
   async request<T = any> (props: HttpRequest): Promise<HttpResponse<T>> {
-    const {url, body, headers, method = 'get', params} = props
+    const { url, body, headers, method = 'get', params } = props
     let response: AxiosResponse
 
     try {
@@ -48,3 +49,5 @@ export class Service {
     }
   }
 }
+
+export const service = new Service()
