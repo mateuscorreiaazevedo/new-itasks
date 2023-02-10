@@ -1,6 +1,6 @@
 import { prisma, useNotification } from '@/modules/core'
 import { authOptions } from './api/auth/[...nextauth]'
-import { NewTask, taskService } from '@/modules/tasks'
+import { NewTask, TaskItem, taskService } from '@/modules/tasks'
 import { FaInfoCircle } from 'react-icons/fa'
 import { getServerSession } from 'next-auth'
 import { GetServerSideProps } from 'next'
@@ -32,23 +32,22 @@ export default function Home ({ data }: Props) {
   return (
     <div>
       <NewTask refreshTasks={refreshTasks} />
-      {tasks?.length
-        ? tasks?.map(task => (
-        <div key={task.id}>
-          {task.title}
-        </div>
-        ))
-        : (
-        <div
-          className='w-full h-20 bg-blue-400 flex gap-4 items-center justify-center md:text-4xl sm:text-2xl text-xl sm:rounded-xl shadow-md text-white'
-        >
-          <FaInfoCircle />
-          <h2 className='font-semibold'>
-            Nenhuma tarefa encontrada
-          </h2>
-        </div>
-          )}
-
+      <div className='flex flex-col gap-3'>
+        {tasks?.length
+          ? (
+              tasks?.map(task => (
+            <div key={task.id}>
+              <TaskItem task={task} refreshTasks={refreshTasks} />
+            </div>
+              ))
+            )
+          : (
+          <div className="w-full h-20 bg-blue-400 flex gap-4 items-center justify-center md:text-4xl sm:text-2xl text-xl sm:rounded-xl shadow-md text-white">
+            <FaInfoCircle />
+            <h2 className="font-semibold">Nenhuma tarefa encontrada</h2>
+          </div>
+            )}
+      </div>
     </div>
   )
 }

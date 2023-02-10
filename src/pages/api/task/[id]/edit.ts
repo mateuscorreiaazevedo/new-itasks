@@ -1,8 +1,8 @@
-import { prisma } from '@/modules/core'
+import { authOptions } from '../../auth/[...nextauth]'
 import { NextApiRequest, NextApiResponse } from 'next'
 import { getServerSession } from 'next-auth'
+import { prisma } from '@/modules/core'
 import { z } from 'zod'
-import { authOptions } from '../../auth/[...nextauth]'
 
 export default async function handle (req: NextApiRequest, res: NextApiResponse) {
   if (req.method === 'PUT') {
@@ -13,33 +13,25 @@ export default async function handle (req: NextApiRequest, res: NextApiResponse)
         id: z.string()
       })
 
-      const { id } = querySchema.parse(req.query)
-
-      const task = await prisma?.task.findUnique({
-        where: {
-          id
-        }
+      const bodySchema = z.object({
+        title: z.string()
       })
 
-      if (task?.status) {
-        await prisma?.task.update({
-          data: {
-            status: false
-          },
-          where: {
-            id
-          }
-        })
-      } else {
-        await prisma?.task.update({
-          data: {
-            status: true
-          },
-          where: {
-            id
-          }
-        })
+      const { title } = bodySchema.parse(req.body)
+      const { id } = querySchema.parse(req.query)
+
+      if (!title.length) {
+        res.status(304)
       }
+
+      await prisma?.task.update({
+        where: {
+          id
+        },
+        data: {
+          title
+        }
+      })
 
       res.status(200).json({ message: 'Tarefa atualizada com sucesso!' })
     }

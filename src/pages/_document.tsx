@@ -5,7 +5,7 @@ export default function Document () {
     <Html lang="pt-br">
       <Head>
       </Head>
-      <body className="w-full min-h-screen bg-orange-50 dark:bg-zinc-900 text-zinc-800 dark:text-white">
+      <body className="w-full min-h-screen bg-orange-50 transition-colors dark:bg-zinc-900 text-zinc-800 dark:text-white">
         <Main />
         <NextScript />
       </body>

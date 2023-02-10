@@ -1,11 +1,11 @@
-import { prisma } from '@/modules/core'
+import { authOptions } from '../../auth/[...nextauth]'
 import { NextApiRequest, NextApiResponse } from 'next'
 import { getServerSession } from 'next-auth'
+import { prisma } from '@/modules/core'
 import { z } from 'zod'
-import { authOptions } from '../../auth/[...nextauth]'
 
 export default async function handle (req: NextApiRequest, res: NextApiResponse) {
-  if (req.method === 'PUT') {
+  if (req.method === 'GET') {
     const session = await getServerSession(req, res, authOptions)
 
     if (session) {
@@ -21,27 +21,7 @@ export default async function handle (req: NextApiRequest, res: NextApiResponse)
         }
       })
 
-      if (task?.status) {
-        await prisma?.task.update({
-          data: {
-            status: false
-          },
-          where: {
-            id
-          }
-        })
-      } else {
-        await prisma?.task.update({
-          data: {
-            status: true
-          },
-          where: {
-            id
-          }
-        })
-      }
-
-      res.status(200).json({ message: 'Tarefa atualizada com sucesso!' })
+      res.status(200).json({ data: task })
     }
 
     res.status(401).json({ error: 'Usuário não autenticado.' })
