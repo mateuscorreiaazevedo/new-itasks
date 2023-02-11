@@ -7,12 +7,13 @@ module.exports = {
     fontFamily: {
       sans: ['Montserrat Alternates', 'sans-serif']
     },
-    fontWeight: {
-      normal: 400,
-      semibold: 500,
-      bold: 600
-    },
-    extend: {}
+    extend: {
+      fontWeight: {
+        normal: 400,
+        semibold: 500,
+        bold: 600
+      }
+    }
   },
   plugins: []
 }

@@ -1,8 +1,9 @@
 import { service } from '@/modules/core'
+import { Task } from '@prisma/client'
 
 class TaskService {
   async getAll () {
-    const response = await service.request<{ data: TaskResponse[]; error?: string; message?: string } | null>({
+    const response = await service.request<{ data: Task[]; error?: string; message?: string } | null>({
       url: '/task'
     })
 
@@ -74,8 +75,8 @@ class TaskService {
   }
 
   async getById ({ id }: { id: string }) {
-    const response = await service.request<{ data: TaskResponse; error?: string }>({
-      url: '/task/:id/get'.replace(':id', id),
+    const response = await service.request<{ data: Task; error?: string }>({
+      url: '/task/:id/get'.replace(':id', id)
     })
 
     switch (response.code) {
@@ -90,7 +91,7 @@ class TaskService {
     }
   }
 
-  async edit ({ id, title }: { id: string, title: string }) {
+  async edit ({ id, title }: { id: string; title: string }) {
     const response = await service.request<{ message: string; error?: string }>({
       url: '/task/:id/edit'.replace(':id', id),
       body: { title },

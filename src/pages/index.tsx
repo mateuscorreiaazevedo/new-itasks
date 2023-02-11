@@ -56,7 +56,7 @@ export const getServerSideProps: GetServerSideProps = async ctx => {
   const session = await getServerSession(ctx.req, ctx.res, authOptions)
   const data = await prisma?.task.findMany({
     where: {
-      user: { email: session?.user?.email as string }
+      user: { email: session?.user?.email }
     }
   })
 
@@ -73,6 +73,6 @@ export const getServerSideProps: GetServerSideProps = async ctx => {
     props: {
       user: session.user,
       data
-    }
+    },
   }
 }

@@ -1,5 +1,6 @@
 import { ButtonUi, Modal } from '@/components/ui'
 import { useNotification } from '@/modules/core'
+import { Task } from '@prisma/client'
 import * as Dialog from '@radix-ui/react-dialog'
 import { useEffect, useState } from 'react'
 import { BsCheck2, BsX } from 'react-icons/bs'
@@ -13,7 +14,7 @@ type Props = {
 }
 
 export function ModalEditTask ({ id, refreshTasks }: Props) {
-  const [task, setTask] = useState<TaskResponse>()
+  const [task, setTask] = useState<Task>()
   const [loading, setLoading] = useState(false)
   const { setNotification } = useNotification()
   const [title, setTitle] = useState('')

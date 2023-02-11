@@ -15,7 +15,7 @@ type ProviderProps = {
 }
 
 export const ThemeProvider = ({ children }: ProviderProps) => {
-  const [theme, setTheme] = useCookies<string>('theme-itasks', 'light')
+  const [theme, setTheme] = useCookies<string>('theme-itasks', 'dark')
   const [isLight, setIsLight] = React.useState(true)
 
   const handleTheme = () => {

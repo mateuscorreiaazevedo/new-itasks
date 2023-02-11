@@ -6,9 +6,10 @@ import { PopoverUi } from '@/components/ui'
 import { CheckboxUI } from './checkbox'
 import { taskService } from '..'
 import { ModalEditTask } from './modal'
+import { Task } from '@prisma/client'
 
 type Props = {
-  task: TaskResponse
+  task: Task
   refreshTasks: () => Promise<void>
 }
 
@@ -27,8 +28,8 @@ export function TaskItem ({ task, refreshTasks }: Props) {
 
   return (
     <div className="flex items-center justify-between bg-orange-300 dark:bg-zinc-800 py-2 px-4 rounded-xl shadow-md">
-      <label className="flex items-center justify-center gap-2 text-lg">
-        <CheckboxUI task={task} refreshTasks={refreshTasks} /> {task.title}
+      <label className={`flex items-center justify-center font-semibold gap-2 text-lg ${task?.status ? 'line-through italic font-extralight' : ''}`}>
+        <CheckboxUI task={task} refreshTasks={refreshTasks} /> {task?.title}
       </label>
       <Popover.Root>
         <Popover.Trigger>
@@ -37,12 +38,12 @@ export function TaskItem ({ task, refreshTasks }: Props) {
         <PopoverUi>
           <div className="flex flex-col items-center justify-start">
             <button
-              onClick={() => deleteTask(task.id)}
+              onClick={() => deleteTask(task!.id)}
               className="flex gap-2 items-center hover:bg-orange-200 dark:hover:bg-zinc-600 py-2 px-4 rounded-lg"
             >
               <FaTrash /> Deletar
             </button>
-            <ModalEditTask id={task.id} refreshTasks={refreshTasks} />
+            <ModalEditTask id={task!.id} refreshTasks={refreshTasks} />
           </div>
         </PopoverUi>
       </Popover.Root>
