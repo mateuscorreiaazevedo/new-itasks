@@ -4,7 +4,7 @@ import { Task } from '@prisma/client'
 class TaskService {
   async getAll () {
     const response = await service.request<{ data: Task[]; error?: string; message?: string } | null>({
-      url: '/api/task'
+      url: '/task'
     })
 
     switch (response.code) {
@@ -19,7 +19,7 @@ class TaskService {
 
   async create ({ title }: { title: string }) {
     const response = await service.request<{ message: string; error?: string }>({
-      url: '/api/task/create',
+      url: '/task/create',
       body: {
         title
       },
@@ -40,7 +40,7 @@ class TaskService {
 
   async toggle ({ id }: { id: string }) {
     const response = await service.request<{ message: string; error?: string }>({
-      url: '/api/task/:id/toggle'.replace(':id', id),
+      url: '/task/:id/toggle'.replace(':id', id),
       method: 'put'
     })
 
@@ -58,7 +58,7 @@ class TaskService {
 
   async delete ({ id }: { id: string }) {
     const response = await service.request<{ message: string; error?: string }>({
-      url: '/api/task/:id/delete'.replace(':id', id),
+      url: '/task/:id/delete'.replace(':id', id),
       method: 'delete'
     })
 
@@ -76,7 +76,7 @@ class TaskService {
 
   async getById ({ id }: { id: string }) {
     const response = await service.request<{ data: Task; error?: string }>({
-      url: '/api/task/:id/get'.replace(':id', id)
+      url: '/task/:id/get'.replace(':id', id)
     })
 
     switch (response.code) {
@@ -93,7 +93,7 @@ class TaskService {
 
   async edit ({ id, title }: { id: string; title: string }) {
     const response = await service.request<{ message: string; error?: string }>({
-      url: '/api/task/:id/edit'.replace(':id', id),
+      url: '/task/:id/edit'.replace(':id', id),
       body: { title },
       method: 'put'
     })
