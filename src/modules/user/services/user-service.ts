@@ -3,7 +3,7 @@ import { service } from '@/modules/core'
 class UserService {
   async deleteUser () {
     const response = await service.request<{message: string, error?: string}>({
-      url: '/user/delete',
+      url: '/api/user/delete',
       method: 'delete'
     })
 
