@@ -32,7 +32,7 @@ export default function Home ({ data }: Props) {
   return (
     <div>
       <NewTask refreshTasks={refreshTasks} />
-      <div className='flex flex-col gap-3'>
+      <div className="flex flex-col gap-3">
         {tasks?.length
           ? (
               tasks?.map(task => (
@@ -54,11 +54,6 @@ export default function Home ({ data }: Props) {
 
 export const getServerSideProps: GetServerSideProps = async ctx => {
   const session = await getServerSession(ctx.req, ctx.res, authOptions)
-  const data = await prisma?.task.findMany({
-    where: {
-      user: { email: session?.user?.email }
-    }
-  })
 
   if (!session) {
     return {
@@ -67,12 +62,18 @@ export const getServerSideProps: GetServerSideProps = async ctx => {
         permanent: false
       }
     }
-  }
+  } else {
+    const data = await prisma?.task.findMany({
+      where: {
+        user: { email: session?.user?.email }
+      }
+    })
 
-  return {
-    props: {
-      user: session.user,
-      data
-    },
+    return {
+      props: {
+        user: session.user,
+        data
+      }
+    }
   }
 }
