@@ -1,4 +1,4 @@
-import { prisma, useNotification } from '@/modules/core'
+import { useNotification } from '@/modules/core'
 import { authOptions } from './api/auth/[...nextauth]'
 import { NewTask, TaskItem, taskService } from '@/modules/tasks'
 import { FaInfoCircle } from 'react-icons/fa'
@@ -13,11 +13,15 @@ type Props = {
     email?: string | null
     image?: string | null
   }
-  data: Task[] | undefined
+  data: {
+    data: Task[]
+    error?: string
+    message?: string
+  }
 }
 
 export default function Home ({ data }: Props) {
-  const [tasks, setTasks] = React.useState(data)
+  const [tasks, setTasks] = React.useState<Task[] | undefined>(data.data)
   const { setNotification } = useNotification()
 
   const refreshTasks = async () => {
@@ -63,11 +67,7 @@ export const getServerSideProps: GetServerSideProps = async ctx => {
       }
     }
   } else {
-    const data = await prisma?.task.findMany({
-      where: {
-        user: { email: session?.user?.email }
-      }
-    })
+    const data = await taskService.getAll()
 
     return {
       props: {
