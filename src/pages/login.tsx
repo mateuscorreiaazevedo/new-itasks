@@ -3,7 +3,7 @@ import { ButtonUi } from '@/components/ui'
 import { GetServerSideProps } from 'next'
 import { getServerSession } from 'next-auth'
 import { signIn } from 'next-auth/react'
-import { useTheme } from '@/modules/core'
+import { useTheme, _t } from '@/modules/core'
 import React from 'react'
 
 import { FcGoogle } from 'react-icons/fc'
@@ -17,7 +17,7 @@ export default function Login () {
   return (
     <div className="lg:w-80 w-full lg:h-fit h-screen lg:rounded-xl flex flex-col items-center justify-center gap-4 shadow-md bg-orange-200 dark:bg-zinc-800">
       <div className="flex items-center justify-center">
-        <h1 className="text-4xl font-semibold my-4">Bem-vindo!</h1>
+        <h1 className="text-4xl font-semibold my-4">{_t('hello')}</h1>
       </div>
       <div className="flex flex-col justify-center items-center my-2 gap-2">
         <ButtonUi onClick={() => signIn('github')}>
