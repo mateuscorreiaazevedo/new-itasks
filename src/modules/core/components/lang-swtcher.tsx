@@ -1,8 +1,10 @@
 import React from 'react'
 import { useTranslation } from 'react-i18next'
+import { useLocalStorage } from '..'
 
 export function LangSwitch () {
   const { t, i18n } = useTranslation()
+  const [language, setLanguage] = useLocalStorage('language', i18n.language)
 
   const langOptions = [
     {
@@ -15,19 +17,24 @@ export function LangSwitch () {
     }
   ]
 
+  React.useEffect(() => {
+    i18n.changeLanguage(language)
+  })
+
   function handleChange (e: React.ChangeEvent<HTMLSelectElement>) {
     const { value } = e.target
     i18n.changeLanguage(value)
+    setLanguage(value)
   }
 
   return (
-    <div className="absolute bottom-4 right-2">
-      <label className='flex flex-col'>
+    <div className="absolute bottom-4 right-6">
+      <label className="flex flex-col">
         {t('selectLang')}:
         <select
           className="dark:bg-zinc-700 bg-orange-300 px-2 rounded-md py-1"
           onChange={handleChange}
-          defaultValue={i18n.language}
+          value={language}
         >
           {langOptions.map(lang => (
             <option value={lang.value} key={lang.value}>
