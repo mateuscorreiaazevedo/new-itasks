@@ -1,3 +1,10 @@
 {
-  "hello": "Welcome!"
+  "welcome": "Welcome to iTasks!",
+  "portuguese": "Portuguese",
+  "english": "English",
+  "github": "Sign up with Github",
+  "google": "Sign up with Google",
+  "discord": "Sign up with Discord",
+  "theme": "Switch theme",
+  "selectLang": "Select your language"
 }

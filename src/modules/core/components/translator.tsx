@@ -12,7 +12,5 @@ export function _t (label: string) {
 }
 
 export function Translator ({ label }: Props) {
-  const { t } = useTranslation()
-
-  return <>{t(label)}</>
+  return <>{_t(label)}</>
 }
